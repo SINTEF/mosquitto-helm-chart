@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mosquitto.fullname" . }}
+  labels:
+    {{- include "mosquitto.labels" . | nindent 4 }}
+data:
+  mosquitto.conf: |-
+    listener 1883 0.0.0.0
+    protocol mqtt
+    
+    {{- if .Values.mqttOverWebsocket }}
+    listener 9001 0.0.0.0
+    protocol websockets
+    {{- end }}
+
+    log_dest stdout
+    max_inflight_messages {{ .Values.general.maxInflightMessages }}
+    max_queued_messages {{ .Values.general.maxQueuedMessages }}
+    
+    {{- if .Values.auth.enabled }}
+    allow_anonymous false
+    password_file /mosquitto/config/passwords.conf
+    acl_file /mosquitto/config/acl.conf
+    {{- else }}
+    allow_anonymous true
+    {{- end }}
+  {{- if .Values.auth.enabled }}
+  acl.conf: |-
+    {{- range $value := .Values.auth.users }}
+    user {{ $value.username }}
+    {{- if $value.acl }}
+    {{- range $acl := $value.acl }}
+    pattern {{ $acl.access }} {{ $acl.topic }}
+    {{- end }}
+    {{- else }}
+    pattern readwrite #
+    {{- end }}
+    {{- end }}
+  {{- end }}
