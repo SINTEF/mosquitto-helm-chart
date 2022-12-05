@@ -70,7 +70,11 @@ spec:
         {{- if .Values.auth.enabled }}
         - name: secrets
           secret:
+            {{- if .Values.auth.usersExistingSecret }}
+            secretName: {{ .Values.auth.usersExistingSecret }}
+            {{- else }}
             secretName: {{ include "mosquitto.fullname" . }}
+            {{- end }}
         {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
