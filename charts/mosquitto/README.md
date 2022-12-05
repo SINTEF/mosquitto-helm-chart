@@ -26,6 +26,7 @@ helm install mosquitto mosquitto/mosquitto -f your-values.yaml
 | `auth.users[index].password` | Password in Mosquitto's sha512-pbkdf2 format | `admin` (in Mosquitto's sha512-pbkdf2 format) |
 | `auth.users[index].acl[index].topic` | MQTT Topic of the access control rule | `#` |
 | `auth.users[index].acl[index].access` | Access level of the access control rule | `readwrite` |
+| `auth.usersExistingSecret` | Use an existing secret that holds user/password pairs | |
 | `general.maxInflightMessages` | Maximum number of messages that can be in-flight at once, set to 0 for unlimited. | `20` |
 | `general.maxQueuedMessages` | Maximum number of messages that can be queued for a client, set to 0 for unlimited (not recommended) | `1000` |
 | `image.repository` | The image | `eclipse-mosquitto` |
