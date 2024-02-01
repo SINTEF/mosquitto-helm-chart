@@ -3,4 +3,5 @@ name: mosquitto
 description: A Helm chart for Eclipse Mosquitto
 type: application
 version: 0.1.0
+# renovate: image=eclipse-mosquitto
 appVersion: "2.0.15"
