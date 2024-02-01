@@ -9,5 +9,10 @@
   "schedule": [ "before 2am" ],
   "prCreation": "immediate",
   "platform": "github",
-  "packageRules": [ ]
+  "packageRules": [ 
+    {
+      "matchDatasources": ["github-tags", "github-runners"],
+      "groupName": "githubCi"
+    }
+  ]
 }
